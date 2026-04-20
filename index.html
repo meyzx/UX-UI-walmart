@@ -6,12 +6,13 @@
     <title>Walmart | Inicio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 <body>
 
     <header class="main-header">
         <div class="container top-bar">
-            <div class="logo">Walmart</div>
+            <div class="logo animate__animated animate__fadeInLeft">Walmart</div>
             <div class="search-bar">
                 <input type="text" placeholder="Buscar en Walmart.com.mx">
                 <button><i class="fas fa-search"></i></button>
@@ -19,12 +20,15 @@
             <div class="icons-nav">
                 <i class="fas fa-user"></i>
                 <i class="fas fa-heart"></i>
-                <i class="fas fa-shopping-cart"></i>
+                <div style="position: relative; display: inline-block;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-badge" class="cart-count animate__animated" style="display: none; position: absolute; top: -10px; right: -10px; background: #ffc220; color: #002d72; font-size: 10px; padding: 2px 6px; border-radius: 50%; font-weight: bold; border: 2px solid #002d72;">0</span>
+                </div>
             </div>
         </div>
     </header>
 
-    <div class="welcome-banner">
+    <div class="welcome-banner animate__animated animate__fadeIn">
         <h2>Bienvenido a Walmart</h2>
     </div>
 
@@ -44,15 +48,17 @@
     <div class="blue-divider">Tus Favoritos</div>
     <section class="container product-section">
         <div class="product-grid">
-            <div class="product-card">
-                <div class="fav-badge"><i class="fas fa-heart"></i></div>
+            <div class="product-card animate__animated animate__fadeInUp">
+                <div class="fav-badge" onclick="toggleFavorite(this)" style="cursor: pointer; transition: all 0.3s;">
+                    <i class="far fa-heart"></i>
+                </div>
                 <div class="img-placeholder">
                     <img src="https://via.placeholder.com/150" alt="iPad">
                 </div>
                 <div class="product-info">
                     <div class="action-btns">
-                        <button class="btn-yellow"><i class="fas fa-mobile-alt"></i></button>
-                        <button class="btn-yellow"><i class="fas fa-shopping-cart"></i></button>
+                        <button class="btn-yellow ripple" onclick="toast('Comparando producto...')"><i class="fas fa-mobile-alt"></i></button>
+                        <button class="btn-yellow ripple" onclick="addToCart()"><i class="fas fa-shopping-cart"></i></button>
                     </div>
                     <div class="prices">
                         <span class="curr-price">$7,489</span>
@@ -63,7 +69,7 @@
                     <p class="desc">El iPad de 11 pulgadas es más poderoso que nunca.</p>
                 </div>
             </div>
-            </div>
+        </div>
     </section>
 
     <div class="blue-divider">On trending</div>
@@ -73,6 +79,48 @@
             <div class="video-card">Video</div>
         </div>
     </section>
+
+    <div id="toast" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 25px; border-radius: 30px; opacity: 0; transition: opacity 0.3s; z-index: 9999; pointer-events: none;"></div>
+
+    <script>
+        let cartItems = 0;
+
+        function addToCart() {
+            cartItems++;
+            const badge = document.getElementById('cart-badge');
+            badge.style.display = 'block';
+            badge.innerText = cartItems;
+            
+            // Animación de rebote
+            badge.classList.remove('animate__bounceIn');
+            void badge.offsetWidth; 
+            badge.classList.add('animate__bounceIn');
+            
+            toast("Producto añadido al carrito");
+        }
+
+        function toggleFavorite(el) {
+            const icon = el.querySelector('i');
+            el.classList.toggle('active');
+            
+            if(icon.classList.contains('far')) {
+                icon.classList.replace('far', 'fas');
+                el.style.background = "#ffc220";
+                el.classList.add('animate__animated', 'animate__heartBeat');
+                setTimeout(() => el.classList.remove('animate__heartBeat'), 500);
+            } else {
+                icon.classList.replace('fas', 'far');
+                el.style.background = ""; // Vuelve al color original del CSS
+            }
+        }
+
+        function toast(message) {
+            const t = document.getElementById('toast');
+            t.innerText = message;
+            t.style.opacity = '1';
+            setTimeout(() => t.style.opacity = '0', 2500);
+        }
+    </script>
 
 </body>
 </html>
