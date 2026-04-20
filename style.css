@@ -1,0 +1,129 @@
+:root {
+    --w-blue: #002d72;
+    --w-light-blue: #0071ce;
+    --w-yellow: #ffc220;
+    --bg-gray: #f2f2f2;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+body { background: white; }
+
+.container { width: 92%; margin: 0 auto; max-width: 1200px; }
+
+/* Header */
+.main-header { background: var(--w-blue); padding: 10px 0; color: white; }
+.top-bar { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+.logo { font-weight: bold; font-size: 22px; color: var(--w-yellow); }
+.search-bar { flex: 1; display: flex; }
+.search-bar input { width: 100%; padding: 8px 15px; border-radius: 20px 0 0 20px; border: none; }
+.search-bar button { background: var(--w-yellow); border: none; padding: 0 15px; border-radius: 0 20px 20px 0; cursor: pointer; }
+.icons-nav { display: flex; gap: 15px; font-size: 18px; }
+
+/* Banner */
+.welcome-banner { 
+    background: var(--w-blue); 
+    color: white; 
+    margin: 20px auto; 
+    width: 92%; 
+    border-radius: 50px; 
+    text-align: center; 
+    padding: 15px;
+}
+
+/* Categorías */
+.category-grid { 
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 15px; 
+    text-align: center;
+    margin: 30px 0;
+}
+.cat-img { 
+    background: #e5e5e5; 
+    height: 80px; 
+    border-radius: 12px; 
+    margin-bottom: 5px; 
+    transition: transform 0.2s;
+}
+.cat-img:hover { transform: scale(1.05); }
+.cat-item p { font-size: 13px; font-weight: 500; }
+
+/* Dividores Azules */
+.blue-divider { 
+    background: var(--w-light-blue); 
+    color: white; 
+    padding: 10px; 
+    text-align: center; 
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Productos */
+.product-grid { 
+    display: grid; 
+    grid-template-columns: repeat(1, 1fr); 
+    gap: 20px; 
+    margin-bottom: 40px;
+}
+.product-card { 
+    background: #f8f9fa; 
+    border-radius: 15px; 
+    padding: 15px; 
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.fav-badge { 
+    position: absolute; top: 10px; right: 10px; 
+    background: var(--w-yellow); 
+    padding: 8px; 
+    border-radius: 50%; 
+    font-size: 14px;
+}
+.img-placeholder img { width: 100%; border-radius: 10px; }
+
+.action-btns { display: flex; gap: 10px; margin: 10px 0; }
+.btn-yellow { 
+    background: var(--w-yellow); 
+    border: none; 
+    flex: 1; 
+    padding: 10px; 
+    border-radius: 8px; 
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.prices { margin: 10px 0; }
+.curr-price { color: var(--w-blue); font-weight: 800; font-size: 20px; }
+.old-price { color: red; text-decoration: line-through; font-size: 14px; margin-left: 10px; }
+.brand { color: #666; font-size: 12px; }
+.desc { font-size: 11px; color: #888; margin-top: 5px; }
+
+/* Trending */
+.video-grid { display: grid; grid-template-columns: 1fr; gap: 15px; padding-bottom: 40px; }
+.video-card { 
+    background: #333; 
+    color: white; 
+    height: 350px; 
+    border-radius: 20px; 
+    display: flex; 
+    align-items: flex-end; 
+    justify-content: center; 
+    padding: 20px; 
+    font-size: 40px; font-weight: bold;
+}
+
+/* --- RESPONSIVE --- */
+
+/* Tablets */
+@media (min-width: 600px) {
+    .category-grid { grid-template-columns: repeat(4, 1fr); }
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .category-grid { grid-template-columns: repeat(8, 1fr); }
+    .product-grid { grid-template-columns: repeat(4, 1fr); }
+    .video-grid { grid-template-columns: repeat(2, 1fr); }
+}
