@@ -12,12 +12,13 @@
 
     <header class="main-header">
         <div class="container top-bar">
-            <div class="logo animate__animated animate__fadeInLeft">Walmart</div>
+            <div class="logo animate__animated animate__fadeInLeft" onclick="navigateTo('home')" style="cursor:pointer">Walmart</div>
             <div class="search-bar">
                 <input type="text" placeholder="Buscar en Walmart.com.mx">
                 <button><i class="fas fa-search"></i></button>
             </div>
             <div class="icons-nav">
+                <i class="fas fa-moon" id="theme-toggle" onclick="toggleDarkMode()" style="cursor:pointer"></i>
                 <i class="fas fa-user"></i>
                 <i class="fas fa-heart"></i>
                 <div style="position: relative; display: inline-block;">
@@ -28,81 +29,136 @@
         </div>
     </header>
 
-    <div class="welcome-banner animate__animated animate__fadeIn">
-        <h2>Bienvenido a Walmart</h2>
-    </div>
-
-    <section class="container categories-section">
-        <div class="category-grid">
-            <div class="cat-item"><div class="cat-img ahorro"></div><p>Ahorro</p></div>
-            <div class="cat-item"><div class="cat-img flash"></div><p>Flash Deals</p></div>
-            <div class="cat-item"><div class="cat-img marcas"></div><p>Nuestras Marcas</p></div>
-            <div class="cat-item"><div class="cat-img pass"></div><p>Walmart Pass</p></div>
-            <div class="cat-item"><div class="cat-img super"></div><p>Súper</p></div>
-            <div class="cat-item"><div class="cat-img prichos"></div><p>Prichos</p></div>
-            <div class="cat-item"><div class="cat-img goleada"></div><p>Goleada</p></div>
-            <div class="cat-item"><div class="cat-img express"></div><p>Walmart Express</p></div>
-        </div>
-    </section>
-
-    <div class="blue-divider">Tus Favoritos</div>
-    <section class="container product-section">
-        <div class="product-grid">
-            <div class="product-card animate__animated animate__fadeInUp">
-                <div class="fav-badge" onclick="toggleFavorite(this)" style="cursor: pointer; transition: all 0.3s;">
-                    <i class="far fa-heart"></i>
-                </div>
-                <div class="img-placeholder">
-                    <img src="https://via.placeholder.com/150" alt="iPad">
-                </div>
-                <div class="product-info">
-                    <div class="action-btns">
-                        <button class="btn-yellow ripple" onclick="toast('Comparando producto...')"><i class="fas fa-mobile-alt"></i></button>
-                        <button class="btn-yellow ripple" onclick="addToCart()"><i class="fas fa-shopping-cart"></i></button>
-                    </div>
-                    <div class="prices">
-                        <span class="curr-price">$7,489</span>
-                        <span class="old-price">$9,500</span>
-                    </div>
-                    <h4>iPad A16 128GB Rosa</h4>
-                    <p class="brand">Apple</p>
-                    <p class="desc">El iPad de 11 pulgadas es más poderoso que nunca.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="blue-divider">On trending</div>
-    <section class="container trending-section">
-        <div class="video-grid">
-            <div class="video-card">Video</div>
-            <div class="video-card">Video</div>
-        </div>
-    </section>
+    <main id="main-content"></main>
 
     <div id="toast" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 25px; border-radius: 30px; opacity: 0; transition: opacity 0.3s; z-index: 9999; pointer-events: none;"></div>
 
     <script>
         let cartItems = 0;
 
+        // --- Vistas ---
+        const homeView = `
+            <div class="welcome-banner animate__animated animate__fadeIn">
+                <h2>Bienvenido a Walmart</h2>
+            </div>
+
+            <section class="container categories-section">
+                <div class="category-grid">
+                    <div class="cat-item"><div class="cat-img ahorro"></div><p>Ahorro</p></div>
+                    <div class="cat-item"><div class="cat-img flash"></div><p>Flash Deals</p></div>
+                    <div class="cat-item"><div class="cat-img marcas"></div><p>Nuestras Marcas</p></div>
+                    <div class="cat-item"><div class="cat-img pass"></div><p>Walmart Pass</p></div>
+                    <div class="cat-item"><div class="cat-img super"></div><p>Súper</p></div>
+                    <div class="cat-item"><div class="cat-img prichos"></div><p>Prichos</p></div>
+                    <div class="cat-item"><div class="cat-img goleada"></div><p>Goleada</p></div>
+                    <div class="cat-item"><div class="cat-img express"></div><p>Walmart Express</p></div>
+                </div>
+            </section>
+
+            <div class="blue-divider">Tus Favoritos</div>
+            <section class="container product-section">
+                <div class="product-grid">
+                    <div class="product-card animate__animated animate__fadeInUp" onclick="navigateTo('product')">
+                        <div class="fav-badge" onclick="event.stopPropagation(); toggleFavorite(this)" style="cursor: pointer; transition: all 0.3s;">
+                            <i class="far fa-heart"></i>
+                        </div>
+                        <div class="img-placeholder">
+                            <img src="https://m.media-amazon.com/images/I/61mNStZpS9L._AC_SL1500_.jpg" alt="iPad">
+                        </div>
+                        <div class="product-info">
+                            <div class="action-btns">
+                                <button class="btn-yellow ripple" onclick="event.stopPropagation(); toast('Comparando...')"><i class="fas fa-mobile-alt"></i></button>
+                                <button class="btn-yellow ripple" onclick="event.stopPropagation(); addToCart()"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="prices">
+                                <span class="curr-price">$7,489</span>
+                                <span class="old-price">$9,500</span>
+                            </div>
+                            <h4>iPad A16 128GB Rosa</h4>
+                            <p class="brand">Apple</p>
+                            <p class="desc">El iPad de 11 pulgadas es más poderoso que nunca.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="blue-divider">On trending</div>
+            <section class="container trending-section">
+                <div class="video-grid">
+                    <div class="video-card">Video</div>
+                    <div class="video-card">Video</div>
+                </div>
+            </section>
+        `;
+
+        const productDetailView = `
+            <div class="product-detail-container animate__animated animate__fadeIn">
+                <div class="detail-header" style="display:flex; justify-content:space-between; align-items:center; padding: 20px 0;">
+                    <h1 style="font-size: 28px; color: var(--text-main);">Producto</h1>
+                    <div class="fav-badge-large" onclick="toggleFavorite(this)" style="background:#ffc220; padding:12px; border-radius:50%; cursor:pointer;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                </div>
+
+                <div class="product-main-img" style="border: 1px solid #ddd; border-radius:10px; padding:20px; text-align:center; background:#fff;">
+                    <img src="https://m.media-amazon.com/images/I/61mNStZpS9L._AC_SL1500_.jpg" style="max-width:100%; height:auto;">
+                </div>
+
+                <div class="detail-actions" style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin: 20px 0;">
+                    <button class="btn-yellow" style="padding:15px; font-size:24px;" onclick="toast('Opción de pago')"><i class="fas fa-mobile-alt"></i></button>
+                    <button class="btn-yellow" style="padding:15px; font-size:24px;" onclick="addToCart()"><i class="fas fa-shopping-cart"></i></button>
+                </div>
+
+                <h2 style="font-size: 32px; font-weight: bold; margin-bottom:5px;">iPad A16 128GB Rosa</h2>
+                <p style="font-size: 18px; color: #666; margin-bottom:20px;">Apple</p>
+
+                <div class="price-container" style="display:flex; align-items:baseline; gap:15px; margin-bottom:20px;">
+                    <span style="font-size: 48px; font-weight:900; color: var(--w-blue);">$20,000</span>
+                    <span style="font-size: 24px; color: red; text-decoration:line-through;">$27,000</span>
+                </div>
+
+                <div class="details-list" style="color: #444; line-height: 1.6;">
+                    <p>Detalles del artículo</p>
+                    <ul style="padding-left:20px; margin-top:10px;">
+                        <li>La espectacular pantalla Liquid Retina es ideal para ver tus películas favoritas.</li>
+                        <li>Además de dibujar tu próxima obra maestra.</li>
+                        <li>El chip A16 multiplica el rendimiento del dispositivo para agilizar todo lo que hagas.</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+
+        // --- Funciones de Navegación ---
+        function navigateTo(view) {
+            const container = document.getElementById('main-content');
+            if(view === 'home') container.innerHTML = homeView;
+            if(view === 'product') container.innerHTML = productDetailView;
+            window.scrollTo(0, 0);
+        }
+
+        // --- Modo Oscuro ---
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.getElementById('theme-toggle');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        }
+
+        // --- Funciones de Interacción ---
         function addToCart() {
             cartItems++;
             const badge = document.getElementById('cart-badge');
             badge.style.display = 'block';
             badge.innerText = cartItems;
-            
-            // Animación de rebote
             badge.classList.remove('animate__bounceIn');
-            void badge.offsetWidth; 
+            void badge.offsetWidth; 
             badge.classList.add('animate__bounceIn');
-            
             toast("Producto añadido al carrito");
         }
 
         function toggleFavorite(el) {
             const icon = el.querySelector('i');
             el.classList.toggle('active');
-            
             if(icon.classList.contains('far')) {
                 icon.classList.replace('far', 'fas');
                 el.style.background = "#ffc220";
@@ -110,7 +166,7 @@
                 setTimeout(() => el.classList.remove('animate__heartBeat'), 500);
             } else {
                 icon.classList.replace('fas', 'far');
-                el.style.background = ""; // Vuelve al color original del CSS
+                el.style.background = "";
             }
         }
 
@@ -120,7 +176,9 @@
             t.style.opacity = '1';
             setTimeout(() => t.style.opacity = '0', 2500);
         }
-    </script>
 
+        // Carga inicial
+        navigateTo('home');
+    </script>
 </body>
 </html>
